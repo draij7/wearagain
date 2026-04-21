@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Early Access - Our Amazing Product</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --color-primary: #000000;
+      --color-secondary: #f5f5f5;
+      --color-text: #1a1a1a;
+      --color-text-light: #666666;
+      --color-border: #e0e0e0;
+      --border-radius: 8px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: white;
+      color: var(--color-text);
+      line-height: 1.6;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 5rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .hero-content h1 {
+      font-size: 48px;
+      font-weight: 600;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-content p {
+      font-size: 18px;
+      color: var(--color-text-light);
+      line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 1rem 2rem;
+      background: var(--color-primary);
+      color: white;
+      border-radius: var(--border-radius);
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      font-size: 16px;
+      transition: opacity 0.2s;
+    }
+
+    .cta-button:hover {
+      opacity: 0.85;
+    }
+
+    .hero-image {
+      background: var(--color-secondary);
+      border-radius: 12px;
+      padding: 3rem;
+      text-align: center;
+      color: var(--color-text-light);
+      font-size: 14px;
+      min-height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Features Section */
+    .features {
+      padding: 4rem 2rem;
+      background: var(--color-secondary);
+    }
+
+    .features-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .features-title {
+      font-size: 32px;
+      font-weight: 600;
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .feature-card {
+      padding: 2rem;
+      background: white;
+      border-radius: 12px;
+      border: 1px solid var(--color-border);
+    }
+
+    .feature-icon {
+      font-size: 32px;
+      margin-bottom: 1rem;
+    }
+
+    .feature-card h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .feature-card p {
+      font-size: 15px;
+      color: var(--color-text-light);
+    }
+
+    /* How it works */
+    .how-it-works {
+      padding: 4rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: 32px;
+      font-weight: 600;
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .step {
+      text-align: center;
+    }
+
+    .step-number {
+      display: inline-block;
+      width: 48px;
+      height: 48px;
+      background: var(--color-primary);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 20px;
+      margin-bottom: 1rem;
+    }
+
+    .step h4 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .step p {
+      font-size: 15px;
+      color: var(--color-text-light);
+    }
+
+    /* Form Section */
+    .form-section {
+      padding: 5rem 2rem;
+      background: var(--color-secondary);
+    }
+
+    .form-container {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .form-title {
+      font-size: 32px;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+
+    .form-subtitle {
+      text-align: center;
+      color: var(--color-text-light);
+      margin-bottom: 2rem;
+      font-size: 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--color-text);
+      margin-bottom: 0.5rem;
+    }
+
+    input,
+    textarea {
+      font-family: inherit;
+      font-size: 16px;
+      padding: 0.875rem 1rem;
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius);
+      background: white;
+      color: var(--color-text);
+    }
+
+    input:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .form-button {
+      padding: 1rem;
+      background: var(--color-primary);
+      color: white;
+      border: none;
+      border-radius: var(--border-radius);
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      margin-top: 0.5rem;
+    }
+
+    .form-button:hover {
+      opacity: 0.85;
+    }
+
+    .form-button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .success-message {
+      display: none;
+      text-align: center;
+      padding: 2rem;
+      background: white;
+      border-radius: 12px;
+      border: 1px solid var(--color-border);
+      margin-top: 2rem;
+    }
+
+    .success-message.show {
+      display: block;
+    }
+
+    .success-message p {
+      font-size: 16px;
+      margin-bottom: 0.5rem;
+    }
+
+    .success-message p:last-child {
+      font-size: 14px;
+      color: var(--color-text-light);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 3rem 2rem;
+      }
+
+      .hero-content h1 {
+        font-size: 36px;
+      }
+
+      .hero-image {
+        min-height: 300px;
+      }
+
+      .features-title,
+      .section-title,
+      .form-title {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>The future of your workflow</h1>
+      <p>Transform how you work with intelligent automation. Save time, reduce errors, and focus on what matters most.</p>
+      <a href="#early-access" class="cta-button">Get early access</a>
+    </div>
+    <div class="hero-image">
+      [Your product hero image here - 1200x600px]
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <div class="features-container">
+      <h2 class="features-title">Why choose us</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>Lightning fast</h3>
+          <p>Process 10x more tasks without slowing down. Built for performance from the ground up.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔒</div>
+          <h3>Enterprise secure</h3>
+          <p>Your data stays yours. End-to-end encryption and compliance with every major standard.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <h3>Incredibly intuitive</h3>
+          <p>No learning curve. Most people get productive in under 5 minutes.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="how-it-works">
+    <h2 class="section-title">How it works</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">1</div>
+        <h4>Connect</h4>
+        <p>Link your tools and data sources in seconds</p>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <h4>Configure</h4>
+        <p>Set up your workflows with our visual builder</p>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <h4>Automate</h4>
+        <p>Let it run and watch the magic happen</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Early Access Form -->
+  <section class="form-section" id="early-access">
+    <div class="form-container">
+      <h2 class="form-title">Get early access</h2>
+      <p class="form-subtitle">Be the first to experience the future</p>
+
+      <form id="accessForm" class="form-group">
+        <div class="form-field">
+          <label for="name">Full name</label>
+          <input id="name" type="text" placeholder="Your name" required>
+        </div>
+
+        <div class="form-field">
+          <label for="email">Email address</label>
+          <input id="email" type="email" placeholder="your@email.com" required>
+        </div>
+
+        <div class="form-field">
+          <label for="company">Company (optional)</label>
+          <input id="company" type="text" placeholder="Your company">
+        </div>
+
+        <div class="form-field">
+          <label for="message">What's your biggest challenge right now?</label>
+          <textarea id="message" placeholder="Tell us so we can make this perfect for you..."></textarea>
+        </div>
+
+        <button type="submit" class="form-button" id="submitBtn">Secure my early access</button>
+
+        <div id="success" class="success-message">
+          <p><strong>✓ You're in!</strong></p>
+          <p>Check your email for next steps. We can't wait to get you started.</p>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <script>
+    document.getElementById('accessForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('submitBtn');
+      const form = document.getElementById('accessForm');
+      
+      btn.disabled = true;
+      btn.textContent = 'Processing...';
+
+      // Simulate form submission
+      // TODO: Replace with Formspree or EmailJS integration
+      setTimeout(() => {
+        document.getElementById('success').classList.add('show');
+        form.style.display = 'none';
+      }, 600);
+    });
+  </script>
+
+</body>
+</html>
