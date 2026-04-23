@@ -105,18 +105,65 @@
       aspect-ratio: 16 / 10;
       background: var(--color-bg-alt);
       border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--color-text-muted);
-      font-size: 14px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* === Image Placeholder System === */
+    .img-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
       overflow: hidden;
     }
 
-    .hero-image img {
+    .img-container img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      display: block;
+    }
+
+    .img-placeholder {
+      display: none;
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      text-align: center;
+      color: var(--color-text-muted);
+      background: var(--color-bg-alt);
+    }
+
+    .img-placeholder.show {
+      display: flex;
+    }
+
+    .img-placeholder-title {
+      font-size: 13px;
+      margin-bottom: 0.5rem;
+    }
+
+    .img-placeholder-filename {
+      font-family: ui-monospace, 'Cascadia Code', Menlo, Monaco, monospace;
+      font-size: 12px;
+      color: var(--color-text);
+      background: var(--color-bg);
+      padding: 0.25rem 0.6rem;
+      border-radius: 4px;
+      border: 1px solid var(--color-border);
+    }
+
+    .img-placeholder-hint {
+      font-size: 11px;
+      margin-top: 0.75rem;
+      color: var(--color-text-muted);
+      max-width: 220px;
+      line-height: 1.5;
     }
 
     /* Problem Section */
@@ -185,18 +232,8 @@
       width: 100%;
       aspect-ratio: 4 / 3;
       background: var(--color-bg-alt);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--color-text-muted);
-      font-size: 13px;
+      position: relative;
       overflow: hidden;
-    }
-
-    .feature-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
     }
 
     .feature-content {
@@ -242,18 +279,8 @@
       aspect-ratio: 4 / 5;
       background: var(--color-bg-alt);
       border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--color-text-muted);
-      font-size: 13px;
       overflow: hidden;
-    }
-
-    .big-feature-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+      position: relative;
     }
 
     .big-feature-text h2 {
@@ -357,7 +384,6 @@
       overflow: hidden;
     }
 
-    /* Product image container */
     .product-images {
       position: absolute;
       inset: 0;
@@ -372,9 +398,6 @@
       height: 100%;
       opacity: 0;
       transition: opacity 0.4s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
     .product-image-wrapper.active {
@@ -388,17 +411,20 @@
       object-fit: cover;
     }
 
-    /* Placeholder shown when image fails to load */
-    .image-placeholder {
+    .config-placeholder {
+      display: none;
       width: 100%;
       height: 100%;
-      display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       padding: 2rem;
       text-align: center;
       color: var(--color-text-muted);
+    }
+
+    .config-placeholder.show {
+      display: flex;
     }
 
     .placeholder-color-preview {
@@ -698,6 +724,36 @@
 </head>
 <body>
 
+  <!-- ===================================================================== -->
+  <!--  BILDER HOCHLADEN — So einfach geht's:                                -->
+  <!--                                                                        -->
+  <!--  Lade folgende Bilder in dein GitHub Repository (gleicher Ordner wie   -->
+  <!--  index.html). Die Bilder erscheinen automatisch an der richtigen      -->
+  <!--  Stelle. Für jede Datei, die noch fehlt, wird ein Platzhalter mit    -->
+  <!--  dem gewünschten Dateinamen angezeigt.                                -->
+  <!--                                                                        -->
+  <!--  Benötigte Bilder:                                                    -->
+  <!--    hero.jpg              (Hero-Bild: großes Bild oben)               -->
+  <!--    feature-toss.jpg      (Jemand wirft Kleidung ins System)         -->
+  <!--    feature-curtain.jpg   (Detail: Vorhang)                           -->
+  <!--    feature-baskets.jpg   (Detail: Wäschekörbe)                       -->
+  <!--    feature-rail.jpg      (Detail: Kleiderstange oben)                -->
+  <!--    feature-bedroom.jpg   (Lifestyle: Im Schlafzimmer)               -->
+  <!--    wardrobe-sand.jpg     (Konfigurator: Farbe Sand)                 -->
+  <!--    wardrobe-creme.jpg    (Konfigurator: Farbe Creme)                -->
+  <!--    wardrobe-olive.jpg    (Konfigurator: Farbe Olive)                -->
+  <!--    wardrobe-anthrazit.jpg (Konfigurator: Farbe Anthrazit)           -->
+  <!--    wardrobe-terracotta.jpg (Konfigurator: Farbe Terracotta)         -->
+  <!--                                                                        -->
+  <!--  Empfohlene Bildgrößen:                                               -->
+  <!--    Hero: 1600x1000px (Querformat)                                    -->
+  <!--    Features: 800x600px (Querformat)                                  -->
+  <!--    Big Features & Konfigurator: 800x1000px (Hochformat)              -->
+  <!--                                                                        -->
+  <!--  Dateiformat: .jpg (kleiner) oder .png (bessere Qualität)            -->
+  <!--  Maximale Größe: ca. 300KB pro Bild (sonst wird Seite langsam)       -->
+  <!-- ===================================================================== -->
+
   <!-- Navigation -->
   <nav>
     <div class="nav-container">
@@ -714,8 +770,15 @@
       Keine Berge mehr. Kein schlechtes Gewissen. Nur mühelose Ordnung.
     </p>
     <div class="hero-image">
-      <!-- Bild einfügen: <img src="hero.jpg" alt="WearAgain System"> -->
-      [Hero-Bild: komplettes WearAgain System in einem Schlafzimmer]
+      <div class="img-container">
+        <img src="hero.jpg" alt="WearAgain System in einem Schlafzimmer"
+             onerror="this.style.display='none'; this.nextElementSibling.classList.add('show');">
+        <div class="img-placeholder">
+          <p class="img-placeholder-title">Bild hochladen:</p>
+          <span class="img-placeholder-filename">hero.jpg</span>
+          <p class="img-placeholder-hint">Hero-Bild: komplettes System in einem Schlafzimmer (Querformat)</p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -743,7 +806,15 @@
         </p>
       </div>
       <div class="big-feature-image">
-        [Lifestyle-Aufnahme: jemand wirft ein Shirt in das offene System]
+        <div class="img-container">
+          <img src="feature-toss.jpg" alt="Klamotten in WearAgain werfen"
+               onerror="this.style.display='none'; this.nextElementSibling.classList.add('show');">
+          <div class="img-placeholder">
+            <p class="img-placeholder-title">Bild hochladen:</p>
+            <span class="img-placeholder-filename">feature-toss.jpg</span>
+            <p class="img-placeholder-hint">Jemand wirft ein Shirt in das offene System</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -759,7 +830,15 @@
       <div class="features-grid">
         <div class="feature">
           <div class="feature-image">
-            [Nahaufnahme: der Stoffvorhang öffnet sich]
+            <div class="img-container">
+              <img src="feature-curtain.jpg" alt="Stoffvorhang"
+                   onerror="this.style.display='none'; this.nextElementSibling.classList.add('show');">
+              <div class="img-placeholder">
+                <p class="img-placeholder-title">Bild hochladen:</p>
+                <span class="img-placeholder-filename">feature-curtain.jpg</span>
+                <p class="img-placeholder-hint">Nahaufnahme: der Stoffvorhang öffnet sich</p>
+              </div>
+            </div>
           </div>
           <div class="feature-content">
             <h3>Weicher Stoffvorhang</h3>
@@ -772,7 +851,15 @@
 
         <div class="feature">
           <div class="feature-image">
-            [Detailaufnahme: die Halter mit kleinen Wäschekörben]
+            <div class="img-container">
+              <img src="feature-baskets.jpg" alt="Wäschekörbe"
+                   onerror="this.style.display='none'; this.nextElementSibling.classList.add('show');">
+              <div class="img-placeholder">
+                <p class="img-placeholder-title">Bild hochladen:</p>
+                <span class="img-placeholder-filename">feature-baskets.jpg</span>
+                <p class="img-placeholder-hint">Detail: Halter mit kleinen Wäschekörben</p>
+              </div>
+            </div>
           </div>
           <div class="feature-content">
             <h3>Integrierte Wäschekorb-Halter</h3>
@@ -785,7 +872,15 @@
 
         <div class="feature">
           <div class="feature-image">
-            [Detailaufnahme: die obere Querstange mit Kleiderbügeln]
+            <div class="img-container">
+              <img src="feature-rail.jpg" alt="Obere Querstange"
+                   onerror="this.style.display='none'; this.nextElementSibling.classList.add('show');">
+              <div class="img-placeholder">
+                <p class="img-placeholder-title">Bild hochladen:</p>
+                <span class="img-placeholder-filename">feature-rail.jpg</span>
+                <p class="img-placeholder-hint">Detail: obere Querstange mit Bügeln</p>
+              </div>
+            </div>
           </div>
           <div class="feature-content">
             <h3>Kleiderstange oben</h3>
@@ -812,7 +907,15 @@
         </p>
       </div>
       <div class="big-feature-image">
-        [Lifestyle-Aufnahme: WearAgain in einem stilvollen Schlafzimmer]
+        <div class="img-container">
+          <img src="feature-bedroom.jpg" alt="WearAgain im Schlafzimmer"
+               onerror="this.style.display='none'; this.nextElementSibling.classList.add('show');">
+          <div class="img-placeholder">
+            <p class="img-placeholder-title">Bild hochladen:</p>
+            <span class="img-placeholder-filename">feature-bedroom.jpg</span>
+            <p class="img-placeholder-hint">Lifestyle: WearAgain in einem stilvollen Schlafzimmer</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -843,25 +946,7 @@
     </div>
   </section>
 
-  <!-- ===================================================================== -->
-  <!-- KONFIGURATOR                                                          -->
-  <!-- ===================================================================== -->
-  <!--                                                                        -->
-  <!-- So fügst du eigene Bilder ein:                                        -->
-  <!-- 1. Lade deine Produktbilder zu GitHub hoch (gleicher Ordner wie       -->
-  <!--    index.html). Empfohlene Dateinamen:                                -->
-  <!--      wardrobe-sand.jpg                                                -->
-  <!--      wardrobe-creme.jpg                                               -->
-  <!--      wardrobe-olive.jpg                                               -->
-  <!--      wardrobe-anthrazit.jpg                                           -->
-  <!--      wardrobe-terracotta.jpg                                          -->
-  <!--                                                                        -->
-  <!-- 2. Die <img> Tags unten laden die Bilder automatisch. Wenn ein Bild   -->
-  <!--    noch nicht existiert, wird ein sauberer Platzhalter angezeigt.     -->
-  <!--                                                                        -->
-  <!-- 3. Empfohlene Bildmaße: ca. 800x1000 Pixel, Format 4:5                -->
-  <!-- ===================================================================== -->
-
+  <!-- Configurator -->
   <section class="configurator" id="configurator">
     <div class="configurator-container">
       <div class="configurator-header">
@@ -871,17 +956,14 @@
       </div>
 
       <div class="configurator-grid">
-        <!-- Preview: Ein Bild pro Farbe. Aktives wird angezeigt. -->
         <div class="configurator-preview">
           <div class="product-images">
 
             <!-- SAND -->
             <div class="product-image-wrapper active" data-color="Sand">
-              <img 
-                src="wardrobe-sand.jpg" 
-                alt="WearAgain in Sand"
-                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-              <div class="image-placeholder" style="display: none;">
+              <img src="wardrobe-sand.jpg" alt="WearAgain in Sand"
+                   onerror="this.style.display='none'; this.nextElementSibling.classList.add('show');">
+              <div class="config-placeholder">
                 <div class="placeholder-color-preview" style="background-color: #d4c4a8;"></div>
                 <p class="placeholder-text">
                   Lade dein Produktbild hoch:
@@ -892,11 +974,9 @@
 
             <!-- CREME -->
             <div class="product-image-wrapper" data-color="Creme">
-              <img 
-                src="wardrobe-creme.jpg" 
-                alt="WearAgain in Creme"
-                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-              <div class="image-placeholder" style="display: none;">
+              <img src="wardrobe-creme.jpg" alt="WearAgain in Creme"
+                   onerror="this.style.display='none'; this.nextElementSibling.classList.add('show');">
+              <div class="config-placeholder">
                 <div class="placeholder-color-preview" style="background-color: #ebe4d4;"></div>
                 <p class="placeholder-text">
                   Lade dein Produktbild hoch:
@@ -907,11 +987,9 @@
 
             <!-- OLIVE -->
             <div class="product-image-wrapper" data-color="Olive">
-              <img 
-                src="wardrobe-olive.jpg" 
-                alt="WearAgain in Olive"
-                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-              <div class="image-placeholder" style="display: none;">
+              <img src="wardrobe-olive.jpg" alt="WearAgain in Olive"
+                   onerror="this.style.display='none'; this.nextElementSibling.classList.add('show');">
+              <div class="config-placeholder">
                 <div class="placeholder-color-preview" style="background-color: #8a9270;"></div>
                 <p class="placeholder-text">
                   Lade dein Produktbild hoch:
@@ -922,11 +1000,9 @@
 
             <!-- ANTHRAZIT -->
             <div class="product-image-wrapper" data-color="Anthrazit">
-              <img 
-                src="wardrobe-anthrazit.jpg" 
-                alt="WearAgain in Anthrazit"
-                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-              <div class="image-placeholder" style="display: none;">
+              <img src="wardrobe-anthrazit.jpg" alt="WearAgain in Anthrazit"
+                   onerror="this.style.display='none'; this.nextElementSibling.classList.add('show');">
+              <div class="config-placeholder">
                 <div class="placeholder-color-preview" style="background-color: #3d3d3d;"></div>
                 <p class="placeholder-text">
                   Lade dein Produktbild hoch:
@@ -937,11 +1013,9 @@
 
             <!-- TERRACOTTA -->
             <div class="product-image-wrapper" data-color="Terracotta">
-              <img 
-                src="wardrobe-terracotta.jpg" 
-                alt="WearAgain in Terracotta"
-                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-              <div class="image-placeholder" style="display: none;">
+              <img src="wardrobe-terracotta.jpg" alt="WearAgain in Terracotta"
+                   onerror="this.style.display='none'; this.nextElementSibling.classList.add('show');">
+              <div class="config-placeholder">
                 <div class="placeholder-color-preview" style="background-color: #b87a5e;"></div>
                 <p class="placeholder-text">
                   Lade dein Produktbild hoch:
@@ -953,42 +1027,16 @@
           </div>
         </div>
 
-        <!-- Options -->
         <div class="configurator-options">
           <div class="config-group">
             <div class="config-label">Farbe</div>
             <div class="config-value" id="colorName">Sand</div>
             <div class="color-swatches" id="colorSwatches">
-              <button 
-                class="color-swatch active" 
-                data-color="Sand"
-                style="background-color: #d4c4a8;"
-                aria-label="Sand"
-                title="Sand"></button>
-              <button 
-                class="color-swatch" 
-                data-color="Creme"
-                style="background-color: #ebe4d4;"
-                aria-label="Creme"
-                title="Creme"></button>
-              <button 
-                class="color-swatch" 
-                data-color="Olive"
-                style="background-color: #8a9270;"
-                aria-label="Olive"
-                title="Olive"></button>
-              <button 
-                class="color-swatch" 
-                data-color="Anthrazit"
-                style="background-color: #3d3d3d;"
-                aria-label="Anthrazit"
-                title="Anthrazit"></button>
-              <button 
-                class="color-swatch" 
-                data-color="Terracotta"
-                style="background-color: #b87a5e;"
-                aria-label="Terracotta"
-                title="Terracotta"></button>
+              <button class="color-swatch active" data-color="Sand" style="background-color: #d4c4a8;" aria-label="Sand" title="Sand"></button>
+              <button class="color-swatch" data-color="Creme" style="background-color: #ebe4d4;" aria-label="Creme" title="Creme"></button>
+              <button class="color-swatch" data-color="Olive" style="background-color: #8a9270;" aria-label="Olive" title="Olive"></button>
+              <button class="color-swatch" data-color="Anthrazit" style="background-color: #3d3d3d;" aria-label="Anthrazit" title="Anthrazit"></button>
+              <button class="color-swatch" data-color="Terracotta" style="background-color: #b87a5e;" aria-label="Terracotta" title="Terracotta"></button>
             </div>
           </div>
 
@@ -1070,11 +1118,9 @@
       swatch.addEventListener('click', () => {
         const colorName = swatch.dataset.color;
 
-        // Update active swatch
         colorSwatches.forEach(s => s.classList.remove('active'));
         swatch.classList.add('active');
 
-        // Switch to matching product image
         productImageWrappers.forEach(wrapper => {
           if (wrapper.dataset.color === colorName) {
             wrapper.classList.add('active');
@@ -1083,7 +1129,6 @@
           }
         });
 
-        // Update text displays
         colorNameDisplay.textContent = colorName;
         summaryColor.textContent = colorName;
         configDisplay.textContent = colorName;
