@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WearAgain — Your chair is not a wardrobe.</title>
+  <title>WearAgain — Dein Stuhl ist kein Kleiderschrank.</title>
   <style>
     * {
       margin: 0;
@@ -318,6 +318,188 @@
       line-height: 1.6;
     }
 
+    /* Configurator */
+    .configurator {
+      padding: 6rem 2rem;
+      background: var(--color-bg-alt);
+    }
+
+    .configurator-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .configurator-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .configurator-header p {
+      font-size: 18px;
+      color: var(--color-text-muted);
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .configurator-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .configurator-preview {
+      aspect-ratio: 4 / 5;
+      background: var(--color-bg);
+      border-radius: 16px;
+      border: 1px solid var(--color-border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Product image container */
+    .product-images {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .product-image-wrapper {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .product-image-wrapper.active {
+      opacity: 1;
+      z-index: 2;
+    }
+
+    .product-image-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Placeholder shown when image fails to load */
+    .image-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+      color: var(--color-text-muted);
+    }
+
+    .placeholder-color-preview {
+      width: 120px;
+      height: 160px;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      border: 2px solid var(--color-border);
+    }
+
+    .placeholder-text {
+      font-size: 14px;
+      max-width: 240px;
+      line-height: 1.5;
+    }
+
+    .placeholder-filename {
+      font-family: ui-monospace, 'Cascadia Code', Menlo, Monaco, monospace;
+      font-size: 12px;
+      color: var(--color-text);
+      background: var(--color-bg-alt);
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      margin-top: 0.5rem;
+      display: inline-block;
+    }
+
+    .configurator-options {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .config-group {
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .config-group:last-child {
+      border-bottom: none;
+    }
+
+    .config-label {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--color-text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .config-value {
+      font-size: 26px;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.01em;
+    }
+
+    .color-swatches {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .color-swatch {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      padding: 0;
+    }
+
+    .color-swatch:hover {
+      transform: scale(1.05);
+    }
+
+    .color-swatch.active {
+      border-color: var(--color-dark);
+      box-shadow: 0 0 0 2px var(--color-bg-alt);
+    }
+
+    .config-cta {
+      display: inline-block;
+      padding: 1rem 2rem;
+      background: var(--color-dark);
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 500;
+      font-size: 16px;
+      text-align: center;
+      transition: opacity 0.2s;
+      margin-top: 1rem;
+    }
+
+    .config-cta:hover {
+      opacity: 0.85;
+    }
+
     /* Form Section */
     .form-section {
       padding: 6rem 2rem;
@@ -345,6 +527,21 @@
     .form-header p {
       font-size: 17px;
       color: var(--color-text-muted);
+    }
+
+    .selected-config {
+      text-align: center;
+      padding: 1rem 1.5rem;
+      background: var(--color-bg-alt);
+      border-radius: 8px;
+      margin-bottom: 2rem;
+      font-size: 14px;
+      color: var(--color-text-muted);
+    }
+
+    .selected-config strong {
+      color: var(--color-text);
+      font-weight: 500;
     }
 
     form {
@@ -474,7 +671,8 @@
 
     /* Responsive */
     @media (max-width: 768px) {
-      .big-feature-grid {
+      .big-feature-grid,
+      .configurator-grid {
         grid-template-columns: 1fr;
         gap: 2rem;
       }
@@ -491,6 +689,7 @@
       .features,
       .big-feature,
       .how-it-works,
+      .configurator,
       .form-section {
         padding: 4rem 1.5rem;
       }
@@ -503,31 +702,31 @@
   <nav>
     <div class="nav-container">
       <div class="logo">WearAgain</div>
-      <a href="#early-access" class="nav-cta">Get early access</a>
+      <a href="#early-access" class="nav-cta">Jetzt vormerken</a>
     </div>
   </nav>
 
   <!-- Hero -->
   <section class="hero">
-    <h1>Your chair is <em>not</em> a wardrobe.</h1>
+    <h1>Dein Stuhl ist <em>kein</em> Kleiderschrank.</h1>
     <p class="hero-subtitle">
-      The elegant home for clothes you've worn — but aren't ready to wash.
-      No more piles. No more guilt. Just effortless order.
+      Das elegante Zuhause für Kleidung, die du getragen hast — aber noch nicht waschen willst.
+      Keine Berge mehr. Kein schlechtes Gewissen. Nur mühelose Ordnung.
     </p>
     <div class="hero-image">
-      <!-- Replace with your hero image: <img src="hero.jpg" alt="WearAgain system"> -->
-      [Hero image: full WearAgain system in a bedroom setting]
+      <!-- Bild einfügen: <img src="hero.jpg" alt="WearAgain System"> -->
+      [Hero-Bild: komplettes WearAgain System in einem Schlafzimmer]
     </div>
   </section>
 
   <!-- Problem -->
   <section class="problem">
-    <div class="eyebrow">The problem</div>
-    <h2 class="section-headline">Every bedroom has one.</h2>
+    <div class="eyebrow">Das Problem</div>
+    <h2 class="section-headline">Jedes Schlafzimmer hat einen.</h2>
     <p>
-      That chair — buried under yesterday's jeans, last week's sweater, and a shirt you wore
-      for two hours. Not dirty enough to wash, too lived-in to hang back up. So it sits there.
-      Growing. Judging you every morning.
+      Diesen Stuhl — begraben unter der Jeans von gestern, dem Pullover von letzter Woche
+      und dem Shirt, das du nur zwei Stunden getragen hast. Nicht schmutzig genug zum Waschen,
+      zu benutzt zum Zurückhängen. Also bleibt er da. Wächst. Schaut dich jeden Morgen an.
     </p>
   </section>
 
@@ -535,17 +734,16 @@
   <section class="big-feature">
     <div class="big-feature-grid">
       <div class="big-feature-text">
-        <div class="eyebrow">Toss, don't fold</div>
-        <h2>The satisfying throw, finally with a proper destination.</h2>
+        <div class="eyebrow">Werfen statt falten</div>
+        <h2>Der befriedigende Wurf — endlich mit einem würdigen Ziel.</h2>
         <p>
-          WearAgain keeps the best part of the chair — that effortless, one-handed toss
-          after a long day — but replaces the mess with clean, deliberate design.
-          Open the curtain, throw your clothes in, close it. Done.
+          WearAgain behält das Beste am Stuhl — diesen mühelosen einhändigen Wurf
+          nach einem langen Tag — ersetzt aber das Chaos durch klares, durchdachtes Design.
+          Vorhang auf, Klamotten rein, Vorhang zu. Fertig.
         </p>
       </div>
       <div class="big-feature-image">
-        <!-- Replace: <img src="feature-toss.jpg" alt="Tossing clothes into WearAgain"> -->
-        [Lifestyle shot: someone tossing a shirt into the open system]
+        [Lifestyle-Aufnahme: jemand wirft ein Shirt in das offene System]
       </div>
     </div>
   </section>
@@ -554,49 +752,46 @@
   <section class="features">
     <div class="features-container">
       <div class="features-header">
-        <div class="eyebrow">Thoughtfully designed</div>
-        <h2 class="section-headline">Every detail, considered.</h2>
+        <div class="eyebrow">Durchdacht gestaltet</div>
+        <h2 class="section-headline">Jedes Detail, bedacht.</h2>
       </div>
 
       <div class="features-grid">
         <div class="feature">
           <div class="feature-image">
-            <!-- Replace: <img src="feature-curtain.jpg" alt="Curtain opening"> -->
-            [Close-up: the fabric curtain opening]
+            [Nahaufnahme: der Stoffvorhang öffnet sich]
           </div>
           <div class="feature-content">
-            <h3>Soft fabric curtain</h3>
+            <h3>Weicher Stoffvorhang</h3>
             <p>
-              A full fabric cover on the sides and front keeps everything out of sight.
-              The front opens like a curtain — no doors, no fuss.
+              Eine komplette Stoffverkleidung an den Seiten und vorne hält alles außer Sicht.
+              Vorne öffnet er sich wie ein Vorhang — keine Türen, kein Gefummel.
             </p>
           </div>
         </div>
 
         <div class="feature">
           <div class="feature-image">
-            <!-- Replace: <img src="feature-baskets.jpg" alt="Laundry baskets"> -->
-            [Detail shot: the basket holders with small hampers]
+            [Detailaufnahme: die Halter mit kleinen Wäschekörben]
           </div>
           <div class="feature-content">
-            <h3>Built-in hamper slots</h3>
+            <h3>Integrierte Wäschekorb-Halter</h3>
             <p>
-              Integrated holders for small laundry baskets let you sort as you go —
-              lights, darks, delicates. All hidden behind the curtain.
+              Eingebaute Halterungen für kleine Wäschekörbe lassen dich direkt sortieren —
+              Helles, Dunkles, Feines. Alles versteckt hinter dem Vorhang.
             </p>
           </div>
         </div>
 
         <div class="feature">
           <div class="feature-image">
-            <!-- Replace: <img src="feature-rail.jpg" alt="Top rail"> -->
-            [Detail shot: the top cross bar with hangers]
+            [Detailaufnahme: die obere Querstange mit Kleiderbügeln]
           </div>
           <div class="feature-content">
-            <h3>Top rail for hangers</h3>
+            <h3>Kleiderstange oben</h3>
             <p>
-              A full-length cross rail at the top gives jackets, shirts, and dresses
-              a proper hang — not a crumpled heap on a chair.
+              Eine durchgehende Querstange oben gibt Jacken, Hemden und Kleidern einen
+              richtigen Platz zum Hängen — statt eines zerknitterten Haufens auf dem Stuhl.
             </p>
           </div>
         </div>
@@ -608,17 +803,16 @@
   <section class="big-feature big-feature-reverse">
     <div class="big-feature-grid">
       <div class="big-feature-text">
-        <div class="eyebrow">Fits anywhere</div>
-        <h2>A piece of furniture, not a storage unit.</h2>
+        <div class="eyebrow">Passt überall</div>
+        <h2>Ein Möbelstück. Keine Abstellkammer.</h2>
         <p>
-          WearAgain is designed to live in your bedroom like it belongs there.
-          The soft fabric, clean lines, and considered proportions make it something
-          you'll actually want to look at — not something you hide in a corner.
+          WearAgain ist so gestaltet, dass es in dein Schlafzimmer gehört wie ein echtes Möbelstück.
+          Der weiche Stoff, die klaren Linien und die durchdachten Proportionen machen ihn zu etwas,
+          das du tatsächlich gerne anschaust — nicht zu etwas, das du in einer Ecke versteckst.
         </p>
       </div>
       <div class="big-feature-image">
-        <!-- Replace: <img src="feature-bedroom.jpg" alt="WearAgain in bedroom"> -->
-        [Lifestyle shot: WearAgain in a styled bedroom]
+        [Lifestyle-Aufnahme: WearAgain in einem stilvollen Schlafzimmer]
       </div>
     </div>
   </section>
@@ -626,24 +820,185 @@
   <!-- How it works -->
   <section class="how-it-works">
     <div class="how-container">
-      <div class="eyebrow" style="color: var(--color-accent);">How it works</div>
-      <h2 class="section-headline">Three steps. Zero effort.</h2>
+      <div class="eyebrow" style="color: var(--color-accent);">So funktioniert's</div>
+      <h2 class="section-headline">Drei Schritte. Kein Aufwand.</h2>
 
       <div class="steps">
         <div class="step">
           <div class="step-number">01</div>
-          <h4>Open the curtain</h4>
-          <p>Pull back the fabric front with one hand — just like drawing a curtain.</p>
+          <h4>Vorhang öffnen</h4>
+          <p>Zieh die Stofffront mit einer Hand zurück — wie einen Vorhang aufziehen.</p>
         </div>
         <div class="step">
           <div class="step-number">02</div>
-          <h4>Toss your clothes</h4>
-          <p>Hang, drop, or toss — whatever feels right after a long day.</p>
+          <h4>Klamotten werfen</h4>
+          <p>Hängen, fallen lassen oder werfen — wie es sich nach einem langen Tag richtig anfühlt.</p>
         </div>
         <div class="step">
           <div class="step-number">03</div>
-          <h4>Close. Done.</h4>
-          <p>The curtain closes over everything. Your room looks instantly tidy.</p>
+          <h4>Schließen. Fertig.</h4>
+          <p>Der Vorhang schließt sich über allem. Dein Zimmer sieht sofort aufgeräumt aus.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- KONFIGURATOR                                                          -->
+  <!-- ===================================================================== -->
+  <!--                                                                        -->
+  <!-- So fügst du eigene Bilder ein:                                        -->
+  <!-- 1. Lade deine Produktbilder zu GitHub hoch (gleicher Ordner wie       -->
+  <!--    index.html). Empfohlene Dateinamen:                                -->
+  <!--      wardrobe-sand.jpg                                                -->
+  <!--      wardrobe-creme.jpg                                               -->
+  <!--      wardrobe-olive.jpg                                               -->
+  <!--      wardrobe-anthrazit.jpg                                           -->
+  <!--      wardrobe-terracotta.jpg                                          -->
+  <!--                                                                        -->
+  <!-- 2. Die <img> Tags unten laden die Bilder automatisch. Wenn ein Bild   -->
+  <!--    noch nicht existiert, wird ein sauberer Platzhalter angezeigt.     -->
+  <!--                                                                        -->
+  <!-- 3. Empfohlene Bildmaße: ca. 800x1000 Pixel, Format 4:5                -->
+  <!-- ===================================================================== -->
+
+  <section class="configurator" id="configurator">
+    <div class="configurator-container">
+      <div class="configurator-header">
+        <div class="eyebrow">Konfigurator</div>
+        <h2 class="section-headline">Gestalte dein WearAgain.</h2>
+        <p>Wähle die Farbe, die zu deinem Zuhause passt.</p>
+      </div>
+
+      <div class="configurator-grid">
+        <!-- Preview: Ein Bild pro Farbe. Aktives wird angezeigt. -->
+        <div class="configurator-preview">
+          <div class="product-images">
+
+            <!-- SAND -->
+            <div class="product-image-wrapper active" data-color="Sand">
+              <img 
+                src="wardrobe-sand.jpg" 
+                alt="WearAgain in Sand"
+                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+              <div class="image-placeholder" style="display: none;">
+                <div class="placeholder-color-preview" style="background-color: #d4c4a8;"></div>
+                <p class="placeholder-text">
+                  Lade dein Produktbild hoch:
+                  <span class="placeholder-filename">wardrobe-sand.jpg</span>
+                </p>
+              </div>
+            </div>
+
+            <!-- CREME -->
+            <div class="product-image-wrapper" data-color="Creme">
+              <img 
+                src="wardrobe-creme.jpg" 
+                alt="WearAgain in Creme"
+                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+              <div class="image-placeholder" style="display: none;">
+                <div class="placeholder-color-preview" style="background-color: #ebe4d4;"></div>
+                <p class="placeholder-text">
+                  Lade dein Produktbild hoch:
+                  <span class="placeholder-filename">wardrobe-creme.jpg</span>
+                </p>
+              </div>
+            </div>
+
+            <!-- OLIVE -->
+            <div class="product-image-wrapper" data-color="Olive">
+              <img 
+                src="wardrobe-olive.jpg" 
+                alt="WearAgain in Olive"
+                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+              <div class="image-placeholder" style="display: none;">
+                <div class="placeholder-color-preview" style="background-color: #8a9270;"></div>
+                <p class="placeholder-text">
+                  Lade dein Produktbild hoch:
+                  <span class="placeholder-filename">wardrobe-olive.jpg</span>
+                </p>
+              </div>
+            </div>
+
+            <!-- ANTHRAZIT -->
+            <div class="product-image-wrapper" data-color="Anthrazit">
+              <img 
+                src="wardrobe-anthrazit.jpg" 
+                alt="WearAgain in Anthrazit"
+                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+              <div class="image-placeholder" style="display: none;">
+                <div class="placeholder-color-preview" style="background-color: #3d3d3d;"></div>
+                <p class="placeholder-text">
+                  Lade dein Produktbild hoch:
+                  <span class="placeholder-filename">wardrobe-anthrazit.jpg</span>
+                </p>
+              </div>
+            </div>
+
+            <!-- TERRACOTTA -->
+            <div class="product-image-wrapper" data-color="Terracotta">
+              <img 
+                src="wardrobe-terracotta.jpg" 
+                alt="WearAgain in Terracotta"
+                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+              <div class="image-placeholder" style="display: none;">
+                <div class="placeholder-color-preview" style="background-color: #b87a5e;"></div>
+                <p class="placeholder-text">
+                  Lade dein Produktbild hoch:
+                  <span class="placeholder-filename">wardrobe-terracotta.jpg</span>
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Options -->
+        <div class="configurator-options">
+          <div class="config-group">
+            <div class="config-label">Farbe</div>
+            <div class="config-value" id="colorName">Sand</div>
+            <div class="color-swatches" id="colorSwatches">
+              <button 
+                class="color-swatch active" 
+                data-color="Sand"
+                style="background-color: #d4c4a8;"
+                aria-label="Sand"
+                title="Sand"></button>
+              <button 
+                class="color-swatch" 
+                data-color="Creme"
+                style="background-color: #ebe4d4;"
+                aria-label="Creme"
+                title="Creme"></button>
+              <button 
+                class="color-swatch" 
+                data-color="Olive"
+                style="background-color: #8a9270;"
+                aria-label="Olive"
+                title="Olive"></button>
+              <button 
+                class="color-swatch" 
+                data-color="Anthrazit"
+                style="background-color: #3d3d3d;"
+                aria-label="Anthrazit"
+                title="Anthrazit"></button>
+              <button 
+                class="color-swatch" 
+                data-color="Terracotta"
+                style="background-color: #b87a5e;"
+                aria-label="Terracotta"
+                title="Terracotta"></button>
+            </div>
+          </div>
+
+          <div class="config-group">
+            <div class="config-label">Deine Auswahl</div>
+            <p style="color: var(--color-text-muted); margin-bottom: 1rem;">
+              WearAgain in <strong id="summaryColor" style="color: var(--color-text);">Sand</strong> — perfekt für warme, natürliche Wohnräume.
+            </p>
+            <a href="#early-access" class="config-cta">Diese Version reservieren</a>
+          </div>
         </div>
       </div>
     </div>
@@ -653,60 +1008,99 @@
   <section class="form-section" id="early-access">
     <div class="form-container">
       <div class="form-header">
-        <div class="eyebrow">Limited first release</div>
-        <h2>Secure your WearAgain.</h2>
-        <p>Be among the first to replace the chair. No payment required — just your spot in line.</p>
+        <div class="eyebrow">Limitierte erste Auflage</div>
+        <h2>Sichere dir dein WearAgain.</h2>
+        <p>Sei einer der Ersten, die den Stuhl ersetzen. Keine Zahlung nötig — nur dein Platz auf der Liste.</p>
+      </div>
+
+      <div class="selected-config" id="selectedConfig">
+        Deine Konfiguration: <strong id="configDisplay">Sand</strong>
       </div>
 
       <form id="accessForm">
+        <input type="hidden" id="configColor" name="configuration" value="Sand">
+
         <div class="form-field">
-          <label for="name">Full name</label>
-          <input id="name" name="name" type="text" placeholder="Your name" required>
+          <label for="name">Vollständiger Name</label>
+          <input id="name" name="name" type="text" placeholder="Dein Name" required>
         </div>
 
         <div class="form-field">
-          <label for="email">Email address</label>
-          <input id="email" name="email" type="email" placeholder="your@email.com" required>
+          <label for="email">E-Mail-Adresse</label>
+          <input id="email" name="email" type="email" placeholder="deine@email.de" required>
         </div>
 
         <div class="form-field">
-          <label for="city">City (optional)</label>
-          <input id="city" name="city" type="text" placeholder="Where are you based?">
+          <label for="city">Stadt (optional)</label>
+          <input id="city" name="city" type="text" placeholder="Wo wohnst du?">
         </div>
 
         <div class="form-field">
-          <label for="message">What would you use it for? (optional)</label>
-          <textarea id="message" name="message" placeholder="Tell us about your bedroom chair situation..."></textarea>
+          <label for="message">Wofür würdest du es nutzen? (optional)</label>
+          <textarea id="message" name="message" placeholder="Erzähl uns von deiner Schlafzimmer-Stuhl-Situation..."></textarea>
         </div>
 
-        <button type="submit" class="form-button" id="submitBtn">Reserve my spot</button>
-        <p class="form-note">No payment, no commitment. We'll reach out when your unit is ready.</p>
-        <div id="formError" class="form-error">Something went wrong. Please try again.</div>
+        <button type="submit" class="form-button" id="submitBtn">Platz reservieren</button>
+        <p class="form-note">Keine Zahlung, keine Verpflichtung. Wir melden uns, sobald dein WearAgain bereit ist.</p>
+        <div id="formError" class="form-error">Etwas ist schiefgelaufen. Bitte versuch es erneut.</div>
       </form>
 
       <div id="success" class="success-message">
-        <h3>You're on the list.</h3>
-        <p>We'll email you as soon as your WearAgain is ready to ship.</p>
+        <h3>Du bist auf der Liste.</h3>
+        <p>Wir schicken dir eine E-Mail, sobald dein WearAgain versandbereit ist.</p>
       </div>
     </div>
   </section>
 
   <!-- Footer -->
   <footer>
-    <p>© 2026 WearAgain Systems. Designed for a tidier life.</p>
+    <p>© 2026 WearAgain Systems. Gestaltet für ein ordentlicheres Leben.</p>
   </footer>
 
   <script>
+    // ===== KONFIGURATOR =====
+    const colorSwatches = document.querySelectorAll('.color-swatch');
+    const productImageWrappers = document.querySelectorAll('.product-image-wrapper');
+    const colorNameDisplay = document.getElementById('colorName');
+    const summaryColor = document.getElementById('summaryColor');
+    const configDisplay = document.getElementById('configDisplay');
+    const configColorInput = document.getElementById('configColor');
+
+    colorSwatches.forEach(swatch => {
+      swatch.addEventListener('click', () => {
+        const colorName = swatch.dataset.color;
+
+        // Update active swatch
+        colorSwatches.forEach(s => s.classList.remove('active'));
+        swatch.classList.add('active');
+
+        // Switch to matching product image
+        productImageWrappers.forEach(wrapper => {
+          if (wrapper.dataset.color === colorName) {
+            wrapper.classList.add('active');
+          } else {
+            wrapper.classList.remove('active');
+          }
+        });
+
+        // Update text displays
+        colorNameDisplay.textContent = colorName;
+        summaryColor.textContent = colorName;
+        configDisplay.textContent = colorName;
+        configColorInput.value = colorName;
+      });
+    });
+
+    // ===== FORM SUBMISSION =====
     document.getElementById('accessForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const btn = document.getElementById('submitBtn');
       const form = document.getElementById('accessForm');
       const errorEl = document.getElementById('formError');
 
-      // Reset error state
       errorEl.classList.remove('show');
       btn.disabled = true;
-      btn.textContent = 'Sending...';
+      btn.textContent = 'Wird gesendet...';
 
       try {
         const formData = new FormData(form);
@@ -718,21 +1112,21 @@
 
         if (response.ok) {
           form.style.display = 'none';
+          document.getElementById('selectedConfig').style.display = 'none';
           document.getElementById('success').classList.add('show');
-          // Scroll to success message
           document.getElementById('success').scrollIntoView({ behavior: 'smooth', block: 'center' });
         } else {
           const data = await response.json();
-          errorEl.textContent = data.error || 'Something went wrong. Please try again.';
+          errorEl.textContent = data.error || 'Etwas ist schiefgelaufen. Bitte versuch es erneut.';
           errorEl.classList.add('show');
           btn.disabled = false;
-          btn.textContent = 'Reserve my spot';
+          btn.textContent = 'Platz reservieren';
         }
       } catch (error) {
-        errorEl.textContent = 'Network error. Please check your connection and try again.';
+        errorEl.textContent = 'Netzwerkfehler. Bitte prüfe deine Verbindung und versuch es erneut.';
         errorEl.classList.add('show');
         btn.disabled = false;
-        btn.textContent = 'Reserve my spot';
+        btn.textContent = 'Platz reservieren';
       }
     });
   </script>
